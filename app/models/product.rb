@@ -1,5 +1,7 @@
 class Product < ApplicationRecord
   belongs_to :user
+  has_many :placements, dependent: :destroy
+  has_many :orders, through: :placements
   validates :title, presence: true # user_id presence is required by default
   validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   scope :filter_by_title, ->(keyword) { where("LOWER(title) LIKE ?", "%#{keyword.downcase}%") }
